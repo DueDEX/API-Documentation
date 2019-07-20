@@ -239,6 +239,10 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     DELETE /v1/order
 
+> **NOTE**
+>
+> To cancel all active orders under an instrument, do not send `clientOrderId` or `orderId`.
+
 - Weight
 
     This endpoint has a rate limit weight of `1`
@@ -252,8 +256,8 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
     | instrument | string | false | | Id of the instrument |
-    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` msut be provided |
-    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` msut be provided |
+    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` msut be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
+    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` msut be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
 
 - Response
 
