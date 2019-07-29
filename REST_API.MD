@@ -64,7 +64,7 @@ Note that if any of the four headers above is provided, the request will be cons
 
 The request signature is a `HMAC-SHA256` hash with the API key secret as the secret key of the following message:
 
-    message = "METHOD|PATH|TIMESTAMP|EXPIRATION|PARLIST"
+    message = "METHOD|PATH|TIMESTAMP|EXPIRATION|QUERY_STRING|RAW_BODY"
 
 - METHOD
 
@@ -84,23 +84,19 @@ The request signature is a `HMAC-SHA256` hash with the API key secret as the sec
 
     That is, if the header is not set, the message effectively becomes:
 
-        message = "METHOD|PATH|TIMESTAMP||PARLIST"
+        message = "METHOD|PATH|TIMESTAMP||QUERY_STRING|RAW_BODY"
 
-- PARLIST
+- QUERY_STRING
 
-    The parameter name-value list sorted by name, separated by `&` (as in http query strings), with values URL-encoded (again, as in http query strings).
+    The exact query string used in the request, defined as the string after the question mark (?) in the request uri.
 
-    For `GET` requests, the parameter list is the sorted query string. If no query parameter is provided, the field must be left empty.
+    If your request does not include a query string, leave this field empty.
 
-    For requests with a body, the parameter list includes parameters from *both* the query string and request body. For example, the following request:
+- RAW_BODY
 
-        POST /v1/example?b=100&a=200
+    The exact content sent with the request. Simply fill this field with the raw content sent over the wire.
 
-        {"c":300.0,"d":"my string"}
-    
-    would have the field set to:
-
-        a=200&b=100&c=300.0&d=my%20string
+    If your request does not include a body, leave this field empty.
 
 Before applying the signature algorithm, the secret key must first be extracted from the Base64 encoded API secret:
 
@@ -125,7 +121,9 @@ In this example, we'll assume the following:
 
     Timestamp: 1559211656342
 
-    Request Payload:
+    Formatted Request Payload (not the actual content sent):
+
+    // For legibility only
     {
         instrument = "BTCUSD",
         type = "limit",
@@ -135,13 +133,13 @@ In this example, we'll assume the following:
         timeInForce = "ioc"
     }
 
-First, sort the parameter list:
+    Raw Request Payload (actual request body):
 
-    parList = "instrument=BTCUSD&price=8000&side=long&size=10&timeInForce=ioc&type=limit"
+    {"instrument":"BTCUSD","type":"limit","side":"long","price":8000,"size":10,"timeInForce":"ioc"}
 
-Prepend other fields to construct the complete message (note that since we're not setting the expiration explicitly, the field is left empty):
+First, construct the complete message (note that since we're neither setting the expiration explicitly nor using a query string, both fields are left empty):
 
-    message = "POST|/v1/order|1559211656342||instrument=BTCUSD&price=8000&side=long&size=10&timeInForce=ioc&type=limit"
+    message = "POST|/v1/order|1559211656342|||{\"instrument\":\"BTCUSD\",\"type\":\"limit\",\"side\":\"long\",\"price\":8000,\"size\":10,\"timeInForce\":\"ioc\"}"
 
 Decode the API secret:
 
@@ -153,17 +151,17 @@ Sign the message:
 
     signature = HMACSHA256(message, secretKey)
 
-    [121, 234, 227, 119, 15, 52, 49, 162, 191, 26, 7, 188, 44, 36, 133, 2, 92, 204, 66, 215, 250, 173, 250, 76, 165, 109, 4, 20, 204, 96, 104, 228]
+    [202, 60, 213, 245, 53, 243, 95, 23, 165, 191, 118, 232, 200, 143, 195, 197, 104, 219, 72, 49, 222, 203, 133, 207, 186, 82, 80, 138, 64, 252, 229, 241]
 
 Convert the signature to hex:
 
     signature.toHex()
 
-    79eae3770f3431a2bf1a07bc2c2485025ccc42d7faadfa4ca56d0414cc6068e4
+    ca3cd5f535f35f17a5bf76e8c88fc3c568db4831decb85cfba52508a40fce5f1
 
 Set the signature header:
 
-    Ddx-Signature: 79eae3770f3431a2bf1a07bc2c2485025ccc42d7faadfa4ca56d0414cc6068e4
+    Ddx-Signature: ca3cd5f535f35f17a5bf76e8c88fc3c568db4831decb85cfba52508a40fce5f1
 
 # Responses
 
@@ -213,7 +211,11 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint requires the **trade** permission
 
-- Parameters
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
 
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
@@ -251,7 +253,11 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint requires the **trade** permission
 
-- Parameters
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
 
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
@@ -262,6 +268,30 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 - Response
 
     This endpoint has no response data.
+
+### Get Active Orders
+
+    GET /v1/order/active
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an array of the [Order](./DATA_TYPES.MD#Order) structure.
 
 ## Positions
 
@@ -277,7 +307,11 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint requires the **trade** permission
 
-- Parameters
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
 
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
@@ -300,7 +334,11 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint requires the **trade** permission
 
-- Parameters
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
 
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
@@ -310,7 +348,6 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 - Response
 
     This endpoint has no response data.
-
 
 ### Transfer Margin
 
@@ -324,7 +361,11 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint requires the **trade** permission
 
-- Parameters
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
 
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
@@ -334,3 +375,53 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 - Response
 
     This endpoint has no response data.
+
+### Get Position
+
+    GET /v1/position/{instrument}
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an instance of the [Position](./DATA_TYPES.MD#Position) structure.
+
+## Margins
+
+### Get Margin
+
+    GET /v1/margin/{currencySymbol}
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an instance of the [Margin](./DATA_TYPES.MD#Margin) structure.
