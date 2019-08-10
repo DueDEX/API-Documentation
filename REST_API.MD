@@ -293,6 +293,34 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     The response data field is an array of the [Order](./DATA_TYPES.MD#Order) structure.
 
+### Get a Single Order
+
+    GET /v1/order
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    | Field | Type | Optional | Default | Remark |
+    | - | - | - | - | - |
+    | instrument | string | false | | Id of the instrument |
+    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` msut be provided |
+    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` msut be provided |
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an instance of the [Order](./DATA_TYPES.MD#Order) structure.
+
 ## Positions
 
 ### Change Leverage
@@ -376,7 +404,7 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     This endpoint has no response data.
 
-### Get Position
+### Get a Single Position
 
     GET /v1/position/{instrument}
 
@@ -402,7 +430,7 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
 ## Margins
 
-### Get Margin
+### Get Margin of Currency
 
     GET /v1/margin/{currencySymbol}
 
