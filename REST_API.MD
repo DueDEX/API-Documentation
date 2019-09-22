@@ -222,16 +222,26 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
     | instrument | string | false | | Id of the instrument |
     | clientOrderId | string | true | - | Unique client id under the instrument with a maximum of 36 characters |
     | type | [OrderType](./DATA_TYPES.MD#OrderType) | false | | Order type |
-    | isCloseOrder | bool | true | false | Whether the order is a close order |
-    | side | [OrderSide](./DATA_TYPES.MD#OrderSide) | true | - | Order side. Required only when `isCloseOrder` is `false` |
-    | price | decimal | true | - | Order price. Required only when `type` is `limit` |
-    | size | long | true | - | Order quantity. Required only when `isCloseOrder` is `false` |
-    | timeInForce | [TimeInForce](./DATA_TYPES.MD#TimeInForce) | true | `gtc` if `type` if `limit`; `ioc` if `type` is `market` | Time in force of the order |
+    | isCloseOrder | bool | true | false if `type` is `limit` or `market`; true if `type` is `stopLimit` or `stopMarket` | Whether the order is a close order that can only reduce positions |
+    | side | [OrderSide](./DATA_TYPES.MD#OrderSide) | true | - | Order side. Can be omitted only when `type` is `limit` or `market` and `isCloseOrder` is `true` |
+    | price | decimal | true | - | Order price. Required only when `type` is `limit` or `stopLimit` |
+    | size | long | true | - | Order quantity. Can be omitted only when `type` is `limit` or `market` and `isCloseOrder` is `true` |
+    | stopPrice | decimal | true | - | Order stop price. Required only when `type` is `stopMarket` or `stopLimit` |
+    | triggerType | [StopTriggerType](./DATA_TYPES.MD#StopTriggerType) | true | lastPrice | Stop order trigger type. Required only when `type` is `stopMarket` or `stopLimit` |
+    | timeInForce | [TimeInForce](./DATA_TYPES.MD#TimeInForce) | true | `gtc` if `type` if `limit` or `stopLimit`; `ioc` if `type` is `market` or `stopMarket` | Time in force of the order |
     | postOnly | bool | true | false | Whether this order can only be maker |
 
     > **NOTE**
     >
-    > `side`, `price`, and `size` fields are required only under certain conditions. You **must not** supply them otherwise. 
+    > The `price`, `stopPrice`, and `triggerType` fields are required only under certain conditions. You **must not** supply them otherwise. 
+
+    > **NOTE**
+    >
+    > Fields `side` and `size` can be omitted when `type` is `limit` or `market` and `isCloseOrder` is `true`. If you omit them, the system will generate them for you automatically based on your active position.
+
+    > **NOTE**
+    >
+    > You must supply either both or none of fields `side` and `size`. In other words, if you supply `side`, then you must supply `size` as well, and vice versa.
 
 - Response
 

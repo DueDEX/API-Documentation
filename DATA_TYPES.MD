@@ -25,8 +25,10 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | type | [OrderType](#OrderType) | Order type |
 | isCloseOrder | bool | Whether the order is a close order |
 | side | [OrderSide](#OrderSide) | Order side |
-| price | decimal | Order price. Sent only when `type` is `limit` |
+| price | decimal | Order price. Sent only when `type` is `limit` or `stopLimit` |
 | size | long | Order size |
+| stopPrice | decimal | Stop order price. Sent only when `type` is `stopMarket` or `stopLimit` |
+| triggerType | [StopTriggerType](#StopTriggerType) | Stop order trigger type. Sent only when `type` is `stopMarket` or `stopLimit` |
 | timeInForce | [TimeInForce](#TimeInForce) | Time in force of the order |
 | notionalValue | decimal | The order's notional value in settlement currency |
 | status | [OrderStatus](#OrderStatus) | Order status |
@@ -69,6 +71,7 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | instrument | string | Id of the instrument |
 | bestBid | decimal | The real-time best bid price |
 | bestAsk | decimal | The real-time best ask price |
+| lastPrice | decimal | The real-time last price |
 | indexPrice | decimal | The real-time index price |
 | markPrice | decimal | The real-time mark price |
 | fundingRate | decimal | The funding rate of the current period |
@@ -104,6 +107,8 @@ Represents an order's type
 | - | - |
 | limit | Limit order |
 | market | Market order |
+| stopMarket | Stop market order |
+| stopLimit | Stop limit order |
 
 ### OrderSide
 
@@ -132,6 +137,7 @@ Represents an order's time in force
 | partiallyFilled | Open order partillay filled |
 | filled | Order completely filled |
 | cancelled | Order cancelled |
+| untriggered | Stop order not yet triggered |
 
 ### TickDirection
 
@@ -141,3 +147,11 @@ Represents an order's time in force
 | zeroMiusTick | Price equal to the last match, but lower than the last match at a different price |
 | zeroPlusTick | Price equal to the last match, but higher than the last match at a different price |
 | plusTick | Price higher than the last match |
+
+### StopTriggerType
+
+| Value | Remark |
+| - | - |
+| lastPrice | Use the last traded price on DueDEX as trigger |
+| indexPrice | Use the index price as trigger |
+| markPrice | Use the mark price as trigger |
