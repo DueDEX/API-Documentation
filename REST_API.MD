@@ -272,8 +272,41 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
     | Field | Type | Optional | Default | Remark |
     | - | - | - | - | - |
     | instrument | string | false | | Id of the instrument |
-    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` msut be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
-    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` msut be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
+    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` must be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
+    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` must be provided to cancel a specific order. Ignore this parameter if you want to cancel all orders under an instrument |
+
+- Response
+
+    This endpoint has no response data.
+
+### Amend Order
+
+    PATCH /v1/order
+
+> **NOTE**
+>
+> Currently only order price amendment is supported. More amendment capabilities coming soon.
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint requires the **trade** permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    | Field | Type | Optional | Default | Remark |
+    | - | - | - | - | - |
+    | instrument | string | false | | Id of the instrument |
+    | clientOrderId | string | true | - | Client order id. One and only one of `clientOrderId` and `orderId` must be provided |
+    | orderId | long | true | - | Id of the order. One and only one of `clientOrderId` and `orderId` must be provided |
+    | price | decimal | true | - | New order price |
 
 - Response
 
