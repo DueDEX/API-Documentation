@@ -12,6 +12,8 @@ For Testnet, use this domain instead:
 
 If you need to maintain a real-time state of your margins, orders, or positions, you should use our [fully-featured WebSocket channels](./WEBSOCKET_API.MD), the exact same data synchronisation mechanism used in the official website. Polling restful interfaces will result in stale data and rate limit breaches.
 
+For REST requests with a body, the media type **must** be set to `application/json`. JSON is the only body format accepted by DueDEX.
+
 # Rate Limit
 
 In order to maintain high quality services to our clients, all API endpoints on DueDEX are rate-limited using a leaky bucket algorithm. Each user or IP address is granted a certain `quota` per minute. Quotas are consumed based on the `weight` of the operation.
