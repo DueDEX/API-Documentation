@@ -438,3 +438,19 @@ This channel maintains margins of all currencies of a user.
 - **Data Model**
 
     The `data` field on this channel is an **array** of [Margin](./DATA_TYPES.MD#Margin)
+
+## `executions` Channel
+
+This channel broadcasts executions of all orders across all instruments of a user.
+
+- **Channel Name**
+
+    executions
+
+- **Channel Type**
+
+    Private Non-Instrument Channel
+
+- **Data Model**
+
+    The `data` field on this channel is an **array** of [Execution](./DATA_TYPES.MD#Execution)

@@ -78,7 +78,7 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | nextFundingTime | DateTime | Timestamp of the end of the current funding period |
 | open | decimal | The open price of the sliding 24-hour window. Updated every 5 seconds  |
 | high | decimal | The high price of the sliding 24-hour window. Updated every 5 seconds  |
-| low | decimal | The low price of the sliding 24-hour windo. Updated every 5 seconds  |
+| low | decimal | The low price of the sliding 24-hour window. Updated every 5 seconds  |
 | close | decimal | The close price of the sliding 24-hour window. Updated every 5 seconds  |
 | volume | long | The number of contracts traded in the sliding 24-hour window. Updated every 5 seconds |
 | openInterest | long | The real-time open interest in contracts |
@@ -93,6 +93,26 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | size | long | The number of contracts traded |
 | side | [OrderSide](#OrderSide) | The order side of the ***aggressing order*** |
 | tickDirection | [TickDirection](#TickDirection) | The tick direction |
+| timestamp | DateTime | Timestamp of the trade |
+
+### Execution
+
+| Field | Type | Remark |
+| - | - | - |
+| instrument | string | Id of the instrument |
+| executionId | long | Id of the execution. Unique under every instrument |
+| orderId | long | Order id |
+| clientOrderId | string | Client order id |
+| orderType | [OrderType](#OrderType) | Order type |
+| orderSide | [OrderSide](#OrderSide) | Order side |
+| orderPrice | decimal | Order price. Sent only when `orderType` is `limit` or `stopLimit` |
+| orderSize | long | The order quantity |
+| executionPrice | decimal | Price of execution |
+| executionSize | long | Quantity of execution |
+| isMaker | bool | Whether the user is maker. `true` if the order is resting |
+| feeRate | decimal | Trading fee rate. Negative for rebate |
+| fee | decimal | Trading fee form the execution. Negative for rebate |
+| orderSizeLeft | long | Quantity left after execution |
 | timestamp | DateTime | Timestamp of the trade |
 
 ## Enumeration Types
