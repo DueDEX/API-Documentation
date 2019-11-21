@@ -498,3 +498,29 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 - Response
 
     The response data field is an instance of the [Margin](./DATA_TYPES.MD#Margin) structure.
+
+## Ticker
+
+### Get Ticker of Instrument
+
+    GET /v1/ticker/{instrument}
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint does not require any permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an instance of the [Ticker](./DATA_TYPES.MD#Ticker) structure.
