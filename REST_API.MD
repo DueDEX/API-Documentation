@@ -224,13 +224,13 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
     | instrument | string | false | | Id of the instrument |
     | clientOrderId | string | true | - | Unique client id under the instrument with a maximum of 36 characters |
     | type | [OrderType](./DATA_TYPES.MD#OrderType) | false | | Order type |
-    | isCloseOrder | bool | true | false if `type` is `limit` or `market`; true if `type` is `stopLimit` or `stopMarket` | Whether the order is a close order that can only reduce positions |
+    | isCloseOrder | bool | true | false if `type` is `limit` or `market`; true if `type` is `stopLimit`, `stopMarket`, `takeProfitLimit` or `takeProfitMarket` | Whether the order is a close order that can only reduce positions |
     | side | [OrderSide](./DATA_TYPES.MD#OrderSide) | true | - | Order side. Can be omitted only when `type` is `limit` or `market` and `isCloseOrder` is `true` |
-    | price | decimal | true | - | Order price. Required only when `type` is `limit` or `stopLimit` |
+    | price | decimal | true | - | Order price. Required only when `type` is `limit`, `stopLimit` or `takeProfitLimit` |
     | size | long | true | - | Order quantity. Can be omitted only when `type` is `limit` or `market` and `isCloseOrder` is `true` |
-    | stopPrice | decimal | true | - | Order stop price. Required only when `type` is `stopMarket` or `stopLimit` |
-    | triggerType | [StopTriggerType](./DATA_TYPES.MD#StopTriggerType) | true | lastPrice | Stop order trigger type. Required only when `type` is `stopMarket` or `stopLimit` |
-    | timeInForce | [TimeInForce](./DATA_TYPES.MD#TimeInForce) | true | `gtc` if `type` if `limit` or `stopLimit`; `ioc` if `type` is `market` or `stopMarket` | Time in force of the order |
+    | stopPrice | decimal | true | - | Order stop price. Required only when `type` is `stopMarket`, `stopLimit`, `takeProfitMarket` or `takeProfitLimit` |
+    | triggerType | [StopTriggerType](./DATA_TYPES.MD#StopTriggerType) | true | lastPrice | Stop order trigger type. Required only when `type` is `stopMarket`, `stopLimit`, `takeProfitMarket` or `takeProfitLimit` |
+    | timeInForce | [TimeInForce](./DATA_TYPES.MD#TimeInForce) | true | `gtc` if `type` is `limit`, `stopLimit` or `takeProfitLimit`; `ioc` if `type` is `market`, `stopMarket` or `takeProfitMarket` | Time in force of the order |
     | postOnly | bool | true | false | Whether this order can only be maker |
 
     > **NOTE**

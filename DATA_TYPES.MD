@@ -129,6 +129,8 @@ Represents an order's type
 | market | Market order |
 | stopMarket | Stop market order |
 | stopLimit | Stop limit order |
+| takeProfitMarket | Take profit market order |
+| takeProfitLimit | Take profit limit order |
 
 ### OrderSide
 
