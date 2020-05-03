@@ -475,6 +475,31 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
 ## Margins
 
+### Get Margins of All Currencies
+
+    GET /v1/margin
+
+- Weight
+
+    This endpoint has a rate limit weight of `3`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an array of the [Margin](./DATA_TYPES.MD#Margin) structure.
+
+
 ### Get Margin of Currency
 
     GET /v1/margin/{currencySymbol}
