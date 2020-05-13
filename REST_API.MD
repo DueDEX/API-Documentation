@@ -366,6 +366,37 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
     The response data field is an instance of the [Order](./DATA_TYPES.MD#Order) structure.
 
+### Get Order History
+
+    GET /v1/order/all
+
+- Weight
+
+    This endpoint has a rate limit weight of `10`
+
+- Permission
+
+    This endpoint requires the **view** permission
+
+- Query Parameters
+
+    | Field | Type | Optional | Default | Remark |
+    | - | - | - | - | - |
+    | instrument | string | false | | Id of the instrument |
+    | start | int | true | 0 | Number of items to skip. Useful for pagination |
+    | limit | int | true | 100 | Maximum number of items to return. Must be in range [1, 100] |
+    | reverse | bool | true | true | Sort by reverse chronological order |
+    | fromTime | DateTime | true | null | Only orders created on or after this timestamp |
+    | toTime | DateTime | true | null | Only orders created on or before this timestamp |
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an array of the [Order](./DATA_TYPES.MD#Order) structure.
+
 ## Positions
 
 ### Change Leverage
