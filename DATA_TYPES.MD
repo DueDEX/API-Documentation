@@ -115,6 +115,44 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | orderSizeLeft | long | Quantity left after execution |
 | timestamp | DateTime | Timestamp of the trade |
 
+### CurrencyInfo
+
+| Field | Type | Remark |
+| - | - | - |
+| symbol | string | Currency symbol |
+| name | string | Currency name |
+| precision | int | Currency precision |
+
+### Instrument
+
+| Field | Type | Remark |
+| - | - | - |
+| instrumentId | string | The instrument id |
+| status | [MarketStatus](#MarketStatus) | Status of the market |
+| baseCurrencySymbol | string | The base currency symbol for display purpose only |
+| quoteCurrencySymbol | string | The quote currency symbol for display purpose only |
+| positionCurrency | [CurrencyInfo](#CurrencyInfo) | The position currency in the market |
+| settlementCurrency | [CurrencyInfo](#CurrencyInfo) | The settlement currency in the market |
+| expirationType | [ExpirationType](#ExpirationType) | The expiration type |
+| markMethod | [MarkMethod](#MarkMethod) | The method used for calculating the mark price |
+| multiplier | decimal | Contract value multiplier |
+| quantoExchangeRate | decimal | The fixed exchange rate for quanto contracts |
+| isInverse | bool | Is this an inverse market |
+| isQuanto | bool | Is this a quanto market |
+| adlEnabled | bool | Is ADL enabled |
+| makerFee | decimal | The maker fee |
+| takerFee | decimal | The taker fee |
+| lotSize | long | The lot size |
+| maxSize | long | The maximum size of an order |
+| pricePrecision | int | Number of decimals in the price |
+| tickSize | decimal | The minimum price increment |
+| maxPrice | decimal | The maximum price of an order |
+| minInitMargin | decimal | The base mininum initial margin requirement |
+| maintMargin | decimal | The base maintenance margin requirement |
+| baseRiskLimit | decimal | The base risk limit in settlement currency |
+| riskStep | decimal | The risk step in settlement currency |
+| maxRiskLimit | decimal | The inclusive maximum risk limit in settlement currency |
+
 ## Enumeration Types
 
 These enumeration types are used in requests and responses.
@@ -177,3 +215,25 @@ Represents an order's time in force
 | lastPrice | Use the last traded price on DueDEX as trigger |
 | indexPrice | Use the index price as trigger |
 | markPrice | Use the mark price as trigger |
+
+### MarketStatus
+
+| Value | Remark |
+| - | - |
+| created | Created but not yet opened for trading |
+| open | Open for trading |
+| suspended | Suspended |
+| delisted | Delisted |
+
+### ExpirationType
+
+| Value | Remark |
+| - | - |
+| perpetual | Perpetual. Contract does not expire. |
+
+### MarkMethod
+
+| Value | Remark |
+| - | - |
+| lastPrice | Last price marking |
+| fairPrice | Fair price marking |
