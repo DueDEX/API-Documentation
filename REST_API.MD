@@ -583,6 +583,30 @@ Note that you should expect this to *not* be a exhaustive list and handle unknow
 
 ## Ticker
 
+### Get Tickers of All Instruments
+
+    GET /v1/ticker
+
+- Weight
+
+    This endpoint has a rate limit weight of `1`
+
+- Permission
+
+    This endpoint does not require any permission
+
+- Query Parameters
+
+    This endpoint does not accept any query parameters
+
+- Body Parameters
+
+    This endpoint does not accept any body parameters
+
+- Response
+
+    The response data field is an array of the [Ticker](./DATA_TYPES.MD#Ticker) structure.
+
 ### Get Ticker of Instrument
 
     GET /v1/ticker/{instrument}
