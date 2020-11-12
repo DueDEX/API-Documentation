@@ -82,6 +82,7 @@ These are the data types used across restful and WebSocket APIs in DueDEX.
 | close | decimal | The close price of the sliding 24-hour window. Updated every 5 seconds  |
 | volume | long | The number of contracts traded in the sliding 24-hour window. Updated every 5 seconds |
 | openInterest | long | The real-time open interest in contracts |
+| volumeUsd | decimal | The US-dollar-dominated value of contracts traded in the sliding 24-hour window. Updated every 5 seconds |
 
 ### Match
 
